@@ -1,0 +1,16 @@
+.timer {
+&__timer-wrapper {
+    position: relative;
+    margin: 0 auto;
+    display: inline-block;
+}
+
+  &__svg-wrapper {
+      position: absolute;
+      top: 0;
+  }
+
+  &__image {
+    margin: 0 auto;
+  }
+}
