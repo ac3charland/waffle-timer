@@ -1,16 +1,40 @@
 .timer {
-&__timer-wrapper {
+  &__form {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    margin: 0 auto;
+    padding-bottom: 20px;
+  }
+
+  &__input {
+    margin-top: 10px;
+  }
+
+  &__submit {
+      width: 50%;
+      margin: 10px auto 0;
+  }
+
+  &__timer-wrapper {
     position: relative;
     margin: 0 auto;
     display: inline-block;
-}
+  }
 
   &__svg-wrapper {
-      position: absolute;
-      top: 0;
+    position: absolute;
+    top: 0;
   }
 
   &__image {
     margin: 0 auto;
+  }
+
+  &__countdown-wrapper {
+    h2 {
+      font-size: 100px;
+      margin: 0;
+    }
   }
 }

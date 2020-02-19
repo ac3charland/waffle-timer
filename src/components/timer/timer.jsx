@@ -8,7 +8,7 @@ export default class Timer extends Component {
 
     constructor(props) {
         super(props)
-        this.state = { value: 25 }
+        this.state = { value: 100 }
     }
 
     handleChange = (event) => {
@@ -43,6 +43,13 @@ export default class Timer extends Component {
 
         return (
             <div className={cb}>
+                <div>
+                    <form className={`${cb}__form`}>
+                        <label for='nameEntry'>Enter Your Name</label>
+                        <input className={`${cb}__input`} type='text' id='nameEntry'></input>
+                        <input className={`${cb}__submit`} type="submit" value="Submit"></input>
+                    </form>
+                </div>
                 <span className={`${cb}__timer-wrapper`}>
                     <img className={`${cb}__image`} src={waffle} />
                     <div className={`${cb}__svg-wrapper`}>
@@ -51,6 +58,9 @@ export default class Timer extends Component {
                         </svg>
                     </div>
                 </span>
+                <div className={`${cb}__countdown-wrapper`}>
+                    <h2>4:33</h2>
+                </div>
                 <div className="slidecontainer">
                     <input type="range" min="1" max="100" value={this.state.value} className="slider" id="myRange" onChange={this.handleChange} />
                 </div>
