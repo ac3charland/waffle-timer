@@ -1,0 +1,6 @@
+type Timer @model {
+  id: ID!
+  name: String
+  startISOString: String!
+  endISOString: String!
+}
