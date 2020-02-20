@@ -14,16 +14,26 @@ Amplify.configure(config)
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = { 
-      lastTimer: null
-     }
-    this.timer = 0;
+    this.state = {
+      lastTimer: null,
+      showForm: true
+    }
+    this.timer = 0
+    this.checkIfActiveTimer = this.checkIfActiveTimer.bind(this)
   }
 
   componentDidMount() {
-    API.graphql(graphqlOperation(queries.listTimers)).then(res => {
+    API.graphql(graphqlOperation(queries.listTimers, {limit: 1000})).then(res => {
       const timers = res.data.listTimers.items
-      const lastTimer = timers[timers.length - 1]
+      let lastTimer
+      timers.forEach(timer => {
+        const { endISOString } = timer
+        if (!lastTimer) {
+          lastTimer = timer
+        } else if (moment(endISOString).isAfter(lastTimer.endISOString)) {
+          lastTimer = timer
+        }
+      })
       this.setState({ lastTimer })
     })
 
@@ -38,11 +48,9 @@ class App extends Component {
   checkIfActiveTimer(timer) {
     if (timer) {
       const { endISOString } = timer
-      this.setState({ activeTimerExists: moment().isBefore(endISOString)}) 
+      return moment().isBefore(endISOString)
     }
-    else {
-      this.setState({activeTimerExists: true})
-    }
+    return true
   }
 
   calculateTimerProps(timer) {
@@ -50,26 +58,53 @@ class App extends Component {
       const { startISOString, endISOString } = timer
       const timerDuration = moment(endISOString).diff(moment(startISOString), 'seconds')
       const secondsUntilEnd = moment(endISOString).diff(moment(), 'seconds')
-      const percentage = Math.round(secondsUntilEnd / timerDuration * 100)
-      const timeRemaining = Math.floor(secondsUntilEnd / 60) + ':' + secondsUntilEnd % 60
-      if (percentage < 0) {
-        this.setState({ percentage: 100, timeRemaining: null })
-        return
+      const percentage = (timerDuration - secondsUntilEnd) / timerDuration * 100
+      const minutesRemaining = Math.floor(secondsUntilEnd / 60)
+      const secondsRemainder = secondsUntilEnd % 60
+      const secondsString = secondsRemainder < 10 ? `0${secondsRemainder}` : secondsRemainder
+      const timeRemaining = `${minutesRemaining}:${secondsString}`
+      if (percentage > 99) {
+        this.setState({ percentage: null, timeRemaining: null })
       }
       else {
         this.setState({ percentage, timeRemaining })
       }
     } else {
-      this.setState({ percentage: 100, timeRemaining: null })
+      this.setState({ percentage: null, timeRemaining: null })
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const newTimerSinceLastUpdate = prevState.lastTimer !== this.state.lastTimer
+    const timerExists = !!this.state.lastTimer
+    if (newTimerSinceLastUpdate && timerExists && this.checkIfActiveTimer(this.state.lastTimer)) {
+      this.setState({showForm: false})
+      this.interval = setInterval(() => {
+        if (this.state.lastTimer && this.checkIfActiveTimer(this.state.lastTimer)) {
+          this.calculateTimerProps(this.state.lastTimer)
+        }
+        else {
+          this.calculateTimerProps(this.state.lastTimer)
+          this.setState({showForm: true})
+          clearInterval(this.interval)
+        }
+      }, 1000)
     }
   }
 
   render() {
+    const name = this.state.lastTimer && this.state.lastTimer.name
     return (
       <div className="App">
-        <h1>Waffle Timer</h1>
-        {!this.state.activeTimerExists && <Form />}
-        <Timer percentage={this.state.percentage} secondsUntilEnd={this.state.secondsUntilEnd} />
+        <div className='flex-wrapper'>
+          <div className='top-wrapper'>
+            <h1>The Dotcom Services Waffle Timer</h1>
+            <Timer percentage={this.state.percentage} timeRemaining={this.state.timeRemaining} name={name} />
+            {this.state.showForm && <Form />}
+          </div>
+          <div className='footer'>Built by Alex Charland <a href="https://github.com/ac3charland/waffle-timer"><i className="fab fa-github-alt"></i></a></div>
+        </div>
+        
       </div>
     )
   }

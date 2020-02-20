@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import './timer.scss'
 import waffle from '../../images/waffle.png'
-import moment from 'moment'
 
 const cb = 'timer'
 
@@ -28,27 +27,36 @@ export default class Timer extends Component {
     }
 
     render() {
-        const { percentage, timeRemaining } = this.props
+        const { percentage, timeRemaining, name } = this.props
         const radius = 202
-        const arcCoordinates = this.calculateArcCoordinates(percentage, radius)
-
-        if (percentage) {
-            return (
-                <div className={cb}>
-                    <span className={`${cb}__timer-wrapper`}>
-                        <img className={`${cb}__image`} src={waffle} />
-                        <div className={`${cb}__svg-wrapper`}>
-                            <svg height={2 * radius} width={2 * radius}>
-                                <path d={`M${radius},${radius} L${radius},5 ${arcCoordinates} z`} fill="white"></path>
-                            </svg>
-                        </div>
-                    </span>
-                    <div className={`${cb}__countdown-wrapper`}>
-                        <h2>{timeRemaining}</h2>
-                    </div>
-                </div>
-            )
+        const arcCoordinates = this.calculateArcCoordinates(percentage || 100, radius)
+        const nameText = name && (name[name.length - 1] === 's' ? `${name}'` : `${name}'s`)
+        let headerText 
+        if (nameText && timeRemaining) {
+            headerText = `Time until ${nameText} waffle is ready:`
+        } 
+        else if (nameText) {
+            headerText = `${nameText} waffle is done!`
         }
-        return null    
+        else {
+            headerText = 'Enter your name below and be the first one to have a waffle!'
+        }
+
+        return (
+            <div className={cb}>
+                <span className={`${cb}__timer-wrapper`}>
+                    <img className={`${cb}__image`} alt='' src={waffle} />
+                    <div className={`${cb}__svg-wrapper`}>
+                        <svg height={2 * radius} width={2 * radius}>
+                            <path d={`M${radius},${radius} L${radius},5 ${arcCoordinates} z`} fill="white"></path>
+                        </svg>
+                    </div>
+                </span>
+                <div className={`${cb}__countdown-wrapper`}>
+                    <h2>{headerText}</h2>
+                    {timeRemaining && <h3>{timeRemaining}</h3>}
+                </div>
+            </div>
+        )
     }
 }
