@@ -1,0 +1,15 @@
+{
+    "waffledev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-waffle-timer-waffledev-200657-authRole",
+            "UnauthRoleArn": "arn:aws:iam::918318660533:role/amplify-waffle-timer-waffledev-200657-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::918318660533:role/amplify-waffle-timer-waffledev-200657-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-waffle-timer-waffledev-200657-deployment",
+            "UnauthRoleName": "amplify-waffle-timer-waffledev-200657-unauthRole",
+            "StackName": "amplify-waffle-timer-waffledev-200657",
+            "StackId": "arn:aws:cloudformation:us-east-1:918318660533:stack/amplify-waffle-timer-waffledev-200657/ad8d3610-5385-11ea-a022-0a0faac5843d",
+            "AmplifyAppId": "d3hjay8m4pb6at"
+        }
+    }
+}

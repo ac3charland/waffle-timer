@@ -1,19 +1,11 @@
 import React, { Component } from 'react'
 import './timer.scss'
 import waffle from '../../images/waffle.png'
+import moment from 'moment'
 
 const cb = 'timer'
 
 export default class Timer extends Component {
-
-    constructor(props) {
-        super(props)
-        this.state = { value: 100 }
-    }
-
-    handleChange = (event) => {
-        this.setState({ value: event.target.value })
-    }
 
     calculateArcCoordinates = (value, radius) => {
 
@@ -21,7 +13,6 @@ export default class Timer extends Component {
         const diameterMinus5 = 2 * radius - 5
 
         const degrees = 360 * ((value - 100) / -100) - 90
-        console.log('degrees sanity check:', degrees)
         const radians = degrees * (Math.PI / 180)
 
         const x = radius - radiusMinus5 * Math.cos(radians)
@@ -34,38 +25,30 @@ export default class Timer extends Component {
             return customHalf
         }
         return firstHalf + customHalf
-
     }
 
     render() {
+        const { percentage, timeRemaining } = this.props
         const radius = 202
-        const arcCoordinates = this.calculateArcCoordinates(this.state.value, radius)
+        const arcCoordinates = this.calculateArcCoordinates(percentage, radius)
 
-        return (
-            <div className={cb}>
-                <div>
-                    <form className={`${cb}__form`}>
-                        <label for='nameEntry'>Enter Your Name</label>
-                        <input className={`${cb}__input`} type='text' id='nameEntry'></input>
-                        <input className={`${cb}__submit`} type="submit" value="Submit"></input>
-                    </form>
-                </div>
-                <span className={`${cb}__timer-wrapper`}>
-                    <img className={`${cb}__image`} src={waffle} />
-                    <div className={`${cb}__svg-wrapper`}>
-                        <svg height={2 * radius} width={2 * radius}>
-                            <path d={`M${radius},${radius} L${radius},5 ${arcCoordinates} z`} fill="white"></path>
-                        </svg>
+        if (percentage) {
+            return (
+                <div className={cb}>
+                    <span className={`${cb}__timer-wrapper`}>
+                        <img className={`${cb}__image`} src={waffle} />
+                        <div className={`${cb}__svg-wrapper`}>
+                            <svg height={2 * radius} width={2 * radius}>
+                                <path d={`M${radius},${radius} L${radius},5 ${arcCoordinates} z`} fill="white"></path>
+                            </svg>
+                        </div>
+                    </span>
+                    <div className={`${cb}__countdown-wrapper`}>
+                        <h2>{timeRemaining}</h2>
                     </div>
-                </span>
-                <div className={`${cb}__countdown-wrapper`}>
-                    <h2>4:33</h2>
                 </div>
-                <div className="slidecontainer">
-                    <input type="range" min="1" max="100" value={this.state.value} className="slider" id="myRange" onChange={this.handleChange} />
-                </div>
-            </div>
-        )
+            )
+        }
+        return null    
     }
-
 }
