@@ -16,7 +16,8 @@ class App extends Component {
     super(props)
     this.state = {
       lastTimer: null,
-      showForm: true
+      showForm: false,
+      loading: true
     }
     this.timer = 0
     this.checkIfActiveTimer = this.checkIfActiveTimer.bind(this)
@@ -34,7 +35,7 @@ class App extends Component {
           lastTimer = timer
         }
       })
-      this.setState({ lastTimer })
+      this.setState({ lastTimer, loading: false, showForm: true })
     })
 
     API.graphql(graphqlOperation(subscriptions.onCreateTimer)).subscribe({
@@ -79,6 +80,7 @@ class App extends Component {
     const timerExists = !!this.state.lastTimer
     if (newTimerSinceLastUpdate && timerExists && this.checkIfActiveTimer(this.state.lastTimer)) {
       this.setState({showForm: false})
+      this.calculateTimerProps(this.state.lastTimer)
       this.interval = setInterval(() => {
         if (this.state.lastTimer && this.checkIfActiveTimer(this.state.lastTimer)) {
           this.calculateTimerProps(this.state.lastTimer)
@@ -98,13 +100,13 @@ class App extends Component {
       <div className="App">
         <div className='flex-wrapper'>
           <div className='top-wrapper'>
-            <h1>The Dotcom Services Waffle Timer</h1>
-            <Timer percentage={this.state.percentage} timeRemaining={this.state.timeRemaining} name={name} />
+            <h1 className='heading'>The Dotcom Services Waffle Timer</h1>
+            {!this.state.loading && <Timer percentage={this.state.percentage} timeRemaining={this.state.timeRemaining} name={name} />}
+            {this.state.loading && <div>Loading...</div>}
             {this.state.showForm && <Form />}
           </div>
           <div className='footer'>Built by Alex Charland <a href="https://github.com/ac3charland/waffle-timer"><i className="fab fa-github-alt"></i></a></div>
         </div>
-        
       </div>
     )
   }

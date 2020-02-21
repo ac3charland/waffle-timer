@@ -28,7 +28,7 @@ export default class Timer extends Component {
 
     render() {
         const { percentage, timeRemaining, name } = this.props
-        const radius = 202
+        const radius = 150
         const arcCoordinates = this.calculateArcCoordinates(percentage || 100, radius)
         const nameText = name && (name[name.length - 1] === 's' ? `${name}'` : `${name}'s`)
         let headerText 
@@ -48,12 +48,12 @@ export default class Timer extends Component {
                     <img className={`${cb}__image`} alt='' src={waffle} />
                     <div className={`${cb}__svg-wrapper`}>
                         <svg height={2 * radius} width={2 * radius}>
-                            <path d={`M${radius},${radius} L${radius},5 ${arcCoordinates} z`} fill="white"></path>
+                            <path d={`M${radius},${radius} L${radius},5 ${arcCoordinates} z`} fill="#FFEDD0"></path>
                         </svg>
                     </div>
                 </span>
                 <div className={`${cb}__countdown-wrapper`}>
-                    <h2>{headerText}</h2>
+                    <h2 className={`${cb}__header`}>{headerText}</h2>
                     {timeRemaining && <h3>{timeRemaining}</h3>}
                 </div>
             </div>
