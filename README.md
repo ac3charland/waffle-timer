@@ -2,7 +2,7 @@
 
 ## Rationale
 
-At my job, every Friday we take turns bring breakfast for our team. I wanted to wow everyone by setting up a waffle-making stand, but to my chagrin the waffle maker I bought doesn't make any sound when the waffle is done. I was presented with several options:
+At my job, every Friday we take turns bringing breakfast for the team. I wanted to wow everyone by setting up a waffle-making stand, but to my chagrin the waffle maker I bought didn't make any sound when the waffle is done. For a team setting, this was unacceptable. Therefore I had a few options for how to proceed:
 
 1. Bring something more reasonable for breakfast.
 2. Buy a waffle maker that makes a sound when the waffle is done.
