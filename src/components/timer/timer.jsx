@@ -2,7 +2,7 @@ import React from 'react'
 import './timer.scss'
 import waffle from '../../images/waffle.png'
 
-const cb = 'timer'
+export const cb = 'timer'
 
 const Timer = props => {
     const {percentage, timeRemaining, name} = props
