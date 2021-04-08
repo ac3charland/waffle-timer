@@ -4,7 +4,7 @@ import {API, graphqlOperation} from 'aws-amplify'
 import * as mutations from '../../graphql/mutations'
 import moment from 'moment'
 
-const cb = 'form'
+export const cb = 'form'
 
 const Form = () => {
     const [name, setName] = useState('')
@@ -22,7 +22,7 @@ const Form = () => {
         <div className={cb}>
             <form className={`${cb}__wrapper`} onSubmit={handleSubmit}>
                 <label htmlFor='nameEntry'>Enter Your Name to <br />Start Your Timer</label>
-                <input className={`${cb}__input`} type='text' id='nameEntry' onChange={(e) => setName(e.target.value)}></input>
+                <input className={`${cb}__input`} type='text' id='nameEntry' onChange={(e) => setName(e.target.value)} value={name}></input>
                 <input className={`${cb}__submit`} type="submit" value="Submit"></input>
             </form>
         </div>
