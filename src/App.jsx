@@ -8,6 +8,7 @@ import { API, graphqlOperation } from 'aws-amplify'
 import * as subscriptions from './graphql/subscriptions'
 import * as queries from './graphql/queries'
 import moment from 'moment'
+import {GITHUB_URL, PORTFOLIO_URL} from './utils/constants'
 
 Amplify.configure(config)
 
@@ -101,11 +102,10 @@ class App extends Component {
         <div className='flex-wrapper'>
           <div className='top-wrapper'>
             <h1 className='heading'>The Dotcom Services Waffle Timer</h1>
-            {!this.state.loading && <Timer percentage={this.state.percentage} timeRemaining={this.state.timeRemaining} name={name} />}
-            {this.state.loading && <div>Loading...</div>}
+            {!this.state.loading ? <Timer percentage={this.state.percentage} timeRemaining={this.state.timeRemaining} name={name} /> : <div>Loading...</div>}
             {this.state.showForm && <Form />}
           </div>
-          <div className='footer'>Built by Alex Charland <a href="https://github.com/ac3charland/waffle-timer"><i className="fab fa-github-alt"></i></a></div>
+          <div className='footer'>Built by <a href={PORTFOLIO_URL}>Alex Charland</a> <a href={GITHUB_URL}><i className="fab fa-github-alt"></i></a></div>
         </div>
       </div>
     )
