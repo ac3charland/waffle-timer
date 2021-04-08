@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './App.css'
+import './App.scss'
 import Timer from './components/timer/timer'
 import Amplify from 'aws-amplify'
 import config from './aws-exports'
